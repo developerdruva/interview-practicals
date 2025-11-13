@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Clone Debug</title>
+  </head>
+  <body>
+    <script>
+      // Deep clone function that waits for Enter key before proceeding to next level
+      const waitForEnter = async (message) => {
+        console.log(message);
+        return new Promise((resolve) => {
+          const handler = (e) => {
+            if (e.key === "Enter") {
+              document.removeEventListener("keydown", handler);
+              resolve();
+            }
+          };
+          document.addEventListener("keydown", handler);
+        });
+      };
+
+      const deepCloneRecursion = async (item, level = 0) => {
+        const indent = "  ".repeat(level);
+        console.log(`${indent}Cloning level ${level}:`, item);
+
+        await waitForEnter(
+          `${indent}Press Enter to continue cloning level ${level}...`
+        );
+
+        if (item === null || typeof item !== "object") {
+          console.log(`${indent}Returning primitive:`, item);
+          return item;
+        }
+
+        const initialValues = Array.isArray(item) ? [] : {};
+        for (const key of Object.keys(item)) {
+          console.log(`${indent}Processing key: '${key}'`);
+          initialValues[key] = await deepCloneRecursion(item[key], level + 1);
+        }
+
+        console.log(`${indent}Returning cloned level ${level}:`, initialValues);
+        return initialValues;
+      };
+      // Test object with nested levels
+      let TempObj = {
+        name: "rajesh",
+        age: 26,
+        role: "developer",
+        skills: ["reactjs", "nodejs", "javascript", "python", "express"],
+        technologies: {
+          front: "javascript",
+          back: "nodejs",
+        },
+      };
+
+      (async () => {
+        let clonedObj = await deepCloneRecursion(TempObj);
+
+        // Mutate the clone to verify original is untouched
+        clonedObj.technologies.frontend.frameworks = "nextjs";
+
+        console.log("\nOriginal TempObj:", TempObj);
+        console.log("Modified ClonedObj:", clonedObj);
+      })();
+    </script>
+  </body>
+</html>
