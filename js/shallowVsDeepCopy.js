@@ -1,21 +1,22 @@
 let obj = {
-    name: 'rks',
-    role: 'software'
-}
+  name: "rks",
+  role: "software",
+};
 
-let obj2 = obj
+let obj2 = obj;
 
-console.log('obj - ', obj)
-console.log('obj - ', obj2)
+console.log("obj - ", obj);
+console.log("obj - ", obj2);
+obj2["name"] = "rajesh";
 
-obj2['name'] = 'rajesh'
+console.log("obj --> ", obj);
+console.log("obj --> ", obj2);
 
-console.log('obj --> ', obj)
-console.log('obj --> ', obj2)
+obj = obj;
+console.log(" --> ", obj);
 
-let obj3 = JSON.parse(JSON.stringify(obj));
+// let obj3 = JSON.parse(JSON.stringify(obj));
 
-obj3['name'] = 'kumar'
+// obj3['name'] = 'kumar'
 
-console.log('deepcopy --> ', obj)
-console.log('deepcopy --> ', obj3)
+// console.log('deepcopy --> ', obj3)
